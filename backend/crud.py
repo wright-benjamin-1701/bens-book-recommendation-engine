@@ -14,15 +14,27 @@ top_books_df = (
     .count()
     .sort_values(by="Book-Rating", ascending=False)
     .reset_index()
-    .iloc[:100]
+    .iloc[:101]
     .merge(books_df, on="ISBN")
     .drop(columns=["User-ID", "Book-Rating"])
 )
 
+
+def create_book(book_df_row):
+    book = Book()
+    book.isbn = book_df_row["ISBN"]
+    book.title = book_df_row["Book-Title"]
+    book.author = book_df_row["Book-Author"]
+    book.yop = book_df_row["Year-Of-Publication"]
+    book.publisher = book_df_row["Publisher"]
+    book.image_url_m = book_df_row["Image-URL-M"]
+    return book
+
+
 # Initialize list to store top books objects
 top_books = []
 for index, row in top_books_df.iterrows():
-    top_books.append(Book(row))
+    top_books.append(create_book(row))
 
 
 def get_book(isbn):
@@ -31,7 +43,7 @@ def get_book(isbn):
     book = books_df[books_df["ISBN"] == isbn]
 
     if len(book) > 0:
-        return Book(book.iloc[0])
+        return create_book(book.iloc[0])
 
     return None
 

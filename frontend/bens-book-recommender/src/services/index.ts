@@ -1,3 +1,3 @@
 import getTopBooks from './get-top-books';
-
-export {getTopBooks};
+import getRecommendations from './get-recommendations';
+export {getTopBooks, getRecommendations};

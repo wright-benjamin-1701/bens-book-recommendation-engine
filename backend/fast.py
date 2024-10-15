@@ -3,6 +3,8 @@ from fastapi import FastAPI, HTTPException
 import crud  # Assuming 'crud' module contains get_book and get_top_100_books functions.
 
 from fastapi.middleware.cors import CORSMiddleware
+from models import Book, RatedBook
+from typing import Optional, List
 
 app = FastAPI()
 
@@ -14,8 +16,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["GET"],
-    allow_headers=["X-Requested-With", "Content-Type"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["X-Requested-With", "Content-Type", "Access-Control-Allow-Origin"],
 )
 
 
@@ -46,3 +48,8 @@ async def get_top_books():
         Exception
     ) as error:  # Gracefully handle any errors that may occur during retrieval of top books.
         raise HTTPException(status_code=503, detail="Unable to retrieve top books")
+
+
+@app.post("/get-recommendations")
+async def get_recommendations(books: List[RatedBook]):
+    return books
