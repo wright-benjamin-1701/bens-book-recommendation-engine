@@ -1,4 +1,5 @@
 import pandas as pd
+from models import Book
 
 books_df = pd.read_csv('books_data/books.csv',encoding='ISO-8859-1', sep=';', on_bad_lines='skip')
 ratings_df = pd.read_csv('books_data/ratings.csv',encoding='ISO-8859-1', sep=';')
@@ -10,14 +11,14 @@ top_books_df = ratings_df.groupby('ISBN').count().sort_values(by='Book-Rating',a
 
 top_books = []
 for ind,row in top_books_df.iterrows():
-    top_books.append(row)    
+    top_books.append(Book(row))
 
 def get_book(isbn):
 
     book = books_df[books_df['ISBN']==isbn]
 
     if len(book) > 0:
-        return book.iloc[0]
+        return Book(book.iloc[0])
 
     return None
 
