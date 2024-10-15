@@ -7,12 +7,17 @@ interface IProps {
 }
 
 
-function BookItem() {
+function BookItem(props:IProps) {
+    const { book } = props;
+
     return (
-        <div className="BookItem">
+        <tr className="BookItem">
+            <td> {book.title}</td>
+            <td>{book.author}</td>
+            <td><input onChange = {(val)=>console.log(val.target.value)} type="range" min={0} max={10} defaultValue={0}/></td>
             
     
-        </div>
+        </tr>
     );  
   }
   

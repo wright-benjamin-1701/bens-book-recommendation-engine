@@ -1,0 +1,9 @@
+style up the front end
+
+clean up and organize code
+
+and env vars to deploy middlware
+
+backend model apis
+
+add state to measure the ratings
