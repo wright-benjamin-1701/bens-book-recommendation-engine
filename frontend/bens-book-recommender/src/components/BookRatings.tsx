@@ -68,11 +68,14 @@ function BookRatings() {
 
   return (
     <div className="BookRatings">
-      <BookList books={books} updateBookRating={updateBookRating} />
-      {books.filter((b) => b?.rating).length >=5 && recommendedBooks.length===0 ? <SuggestionButton onClick={getRecommendationsHandler} /> :
-      null}
+   
+      {recommendedBooks.length >0 ? <><RecommendedBookTable books={recommendedBooks}/> <ResetButton onClick={reset}/></>
+      : <><BookList books={books} updateBookRating={updateBookRating} />  {books.filter((b) => b?.rating).length >=5 ? <SuggestionButton onClick={getRecommendationsHandler} /> :
+      null}</>}
+
+    
       {books.filter((b) => b?.rating).length < 5 && recommendedBooks.length===0 ?  <p>Please rate at least 5 books</p>:null}
-      {recommendedBooks.length >0 ? <><RecommendedBookTable books={recommendedBooks}/> <ResetButton onClick={reset}/></>: null }
+   
     </div>
   );
 }

@@ -7,7 +7,7 @@ type IProps = {
 const SuggestionButton = ({ onClick }: IProps) => {
   return (
     <div className="suggestion-button" >
-        <input type="button" className="button-4" value='Get Recommendations' onClick={onClick} />
+        <input type="button" className="button" value='Get Recommendations' onClick={onClick} />
     </div>
   );
 };
