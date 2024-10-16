@@ -1,14 +1,19 @@
 import axios from "axios";
 
-import {  IMightHaveRatingBook } from ".././types";
+import {  IBook } from ".././types";
 
-const getRecommendations = async (books: IMightHaveRatingBook[]): Promise<IMightHaveRatingBook[]> => {
+const shuffle = (array: IBook[]) => { 
+    return array.sort(() => Math.random() - 0.5); 
+  }; 
+
+const getRecommendations = async (books: IBook[]): Promise<IBook[]> => {
 
     const bookURL = `http://localhost:8000/get-recommendations` ;
-    console.log(books);
+    
     const response = await axios.post(bookURL, books );
+    console.log(response.data);
 
-    return response.data as IMightHaveRatingBook[] ;
+    return shuffle(response.data).slice(0,7) as IBook[] ;
 }
 
     

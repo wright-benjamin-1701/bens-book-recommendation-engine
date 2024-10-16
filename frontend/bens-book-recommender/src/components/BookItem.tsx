@@ -23,11 +23,12 @@ function BookItem(props: IProps) {
             
             <td>{book?.title.toLowerCase()}</td>
             <td>{book?.author.toLowerCase()}</td>
+            <td>{book?.yop.toLowerCase()}</td>
             <td>
                 <input type='range' min={1} max={10} defaultValue={1} onInput={updateBookRatingHandler} />
             </td>
             <td>
-                <output>{book?.rating || 'No rating'}</output>
+                <output>{book?.rating || 'N/A'}</output>
             </td>
     </tr>
     );  

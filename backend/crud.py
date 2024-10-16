@@ -1,23 +1,8 @@
 import pandas as pd
-from models import Book
-
-# Read books and ratings data from CSV files using ISO-8859-1 encoding and semicolon delimiter. Skip lines with bad formatting.
-books_df = pd.read_csv(
-    "./books_data/books.csv", encoding="ISO-8859-1", sep=";", on_bad_lines="skip"
-)
-ratings_df = pd.read_csv("./books_data/ratings.csv", encoding="ISO-8859-1", sep=";")
-users_df = pd.read_csv("./books_data/users.csv", encoding="ISO-8859-1", sep=";")
-
-# Aggregate ratings to find the top 100 books based on number of ratings, and merge with books data on 'ISBN' column
-top_books_df = (
-    ratings_df.groupby("ISBN")
-    .count()
-    .sort_values(by="Book-Rating", ascending=False)
-    .reset_index()
-    .iloc[:101]
-    .merge(books_df, on="ISBN")
-    .drop(columns=["User-ID", "Book-Rating"])
-)
+from models import Book, RatedBook
+from typing import Optional, List
+import engine
+from engine import top_books_df, books_df
 
 
 def create_book(book_df_row):
@@ -29,6 +14,33 @@ def create_book(book_df_row):
     book.publisher = book_df_row["Publisher"]
     book.image_url_m = book_df_row["Image-URL-M"]
     return book
+
+
+def create_books(book_df):
+    books = []
+    for index, row in book_df.iterrows():
+        book = create_book(row)
+        books.append(book)
+    return books
+
+
+def create_book_df(books: List[RatedBook]) -> pd.DataFrame:
+    book_rows = []
+    for book in books:
+        print(book, type(book))
+        book_rows.append(
+            {
+                "ISBN": book.isbn,
+                "Book-Rating": book.rating,
+                "Year-Of-Publication": book.yop,
+                "Book-Title": book.title,
+                "Book-Author": book.author,
+                "Publisher": book.publisher,
+                "Image-URL-M": book.image_url_m,
+            }
+        )
+
+    return pd.DataFrame(book_rows)
 
 
 # Initialize list to store top books objects
@@ -52,3 +64,13 @@ def get_top_100_books():
     """Retrieve the list of top 100 books."""
     # Return the list containing top book objects
     return top_books
+
+
+def get_recommmendations(books):
+
+    book_df = create_book_df(books)
+    book_df = engine.get_labels(book_df)
+
+    recommends_df = engine.run_xgb_recommends(book_df)
+    recommendations = create_books(recommends_df)
+    return recommendations

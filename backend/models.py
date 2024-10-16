@@ -7,7 +7,7 @@ class Book(BaseModel):
     isbn: str = None
     title: str = None
     author: str = None
-    yop: int = None
+    yop: str = None
     publisher: str = None
     image_url_m: str = None
 

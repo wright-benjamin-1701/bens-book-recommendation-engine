@@ -52,4 +52,5 @@ async def get_top_books():
 
 @app.post("/get-recommendations")
 async def get_recommendations(books: List[RatedBook]):
-    return books
+    recommendations = crud.get_recommmendations(books)
+    return recommendations

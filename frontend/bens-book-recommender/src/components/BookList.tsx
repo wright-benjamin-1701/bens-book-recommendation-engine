@@ -13,9 +13,11 @@ function BookList(props:IProps) {
       <div className="BookList">
         <table>
         <thead>
-          <tr><td>title</td>
-          <td>author</td>
-          <td>rating</td></tr>
+          <tr>
+            <th>title</th>
+          <th>author</th>
+          <th>year</th>
+          <th>rating</th></tr>
         </thead>
         <tbody>
         {books.map(book=><BookItem book={book} key={book?.isbn} updateBookRating={updateBookRating} />)}
