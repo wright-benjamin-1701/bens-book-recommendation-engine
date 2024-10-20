@@ -8,7 +8,11 @@ import xgboost as xgb
 
 # Read books and ratings data from CSV files using ISO-8859-1 encoding and semicolon delimiter. Skip lines with bad formatting.
 books_df = pd.read_csv(
-    "./books_data/books.csv", encoding="ISO-8859-1", sep=";", on_bad_lines="skip"
+    "./books_data/books.csv",
+    encoding="ISO-8859-1",
+    sep=";",
+    on_bad_lines="skip",
+    dtype=str,
 )
 ratings_df = pd.read_csv("./books_data/ratings.csv", encoding="ISO-8859-1", sep=";")
 users_df = pd.read_csv("./books_data/users.csv", encoding="ISO-8859-1", sep=";")
